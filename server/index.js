@@ -1,19 +1,21 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
 
+const hospitalRoutes = require('./routes/hospitalRoutes');
+const { receptionistRoutes } = require('./routes/users/index');
+
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
-dotenv.config();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'app is working' });
-});
+app.use('/api/v1/hospitals', hospitalRoutes);
+app.use('/api/v1/receptionists', receptionistRoutes);
 app.all('*', (req, res, next) => {
   next(
     res
@@ -22,7 +24,7 @@ app.all('*', (req, res, next) => {
   );
 });
 
-mongoose.connect(process.env.CON_STR, {
+mongoose.connect(process.env.LOCAL_CON_STR, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
