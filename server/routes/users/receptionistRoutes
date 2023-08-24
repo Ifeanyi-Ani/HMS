@@ -1,0 +1,12 @@
+const express = require('express');
+
+const {
+  getReceptionists,
+  createReceptionist,
+} = require('../../controllers/users/receptionistControllers');
+
+const router = express.Router();
+
+router.route('/').get(getReceptionists).post(createReceptionist);
+
+module.exports = router;
