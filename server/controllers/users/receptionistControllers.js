@@ -2,16 +2,52 @@ const Receptionist = require('../../models/users/Receptionist');
 
 exports.getReceptionists = async (req, res) => {
   try {
-    const receptionist = await Receptionist.find();
-    res.status(200).json(receptionist);
+    const users = await Receptionist.find();
+    res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-exports.createReceptionist = async (req, res) => {
+
+exports.getReceptionist = async (req, res) => {
   try {
-    const receptionist = await Receptionist.create(req.body);
-    res.status(201).json(receptionist);
+    const { id } = req.params;
+    const user = await Receptionist.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Receptionist not found' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+exports.editReceptionist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Receptionist.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: 'no Receptionist found with that ID' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+exports.deleteReceptionist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Receptionist.findByIdAndDelete(id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: 'no Receptionist found with that ID' });
+    }
+    res.status(200).json({ message: 'Receptionist successfully deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

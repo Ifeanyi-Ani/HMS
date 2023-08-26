@@ -24,6 +24,12 @@ const ReceptionistSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'please provide a valid email'],
   },
+  gender: {
+    type: String,
+    lowercase: true,
+    enum: ['male', 'female'],
+  },
+  phone: { type: Number },
   password: {
     type: String,
     select: false,

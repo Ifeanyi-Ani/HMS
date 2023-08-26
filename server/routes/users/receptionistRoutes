@@ -3,10 +3,17 @@ const express = require('express');
 const {
   getReceptionists,
   createReceptionist,
+  editReceptionist,
+  deleteReceptionist,
+  getReceptionist,
 } = require('../../controllers/users/receptionistControllers');
 
 const router = express.Router();
 
 router.route('/').get(getReceptionists).post(createReceptionist);
-
+router
+  .route('/:id')
+  .get(getReceptionist)
+  .patch(editReceptionist)
+  .delete(deleteReceptionist);
 module.exports = router;
