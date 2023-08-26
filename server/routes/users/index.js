@@ -1,3 +1,4 @@
 const receptionistRoutes = require('./receptionistRoutes');
+const patientRoutes = require('./patientRoutes');
 
-module.exports = { receptionistRoutes };
+module.exports = { receptionistRoutes, patientRoutes };
