@@ -26,6 +26,7 @@ const ReceptionistSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
+    required: [true, 'please enter your gender'],
     lowercase: true,
     enum: ['male', 'female'],
   },
@@ -51,12 +52,22 @@ const ReceptionistSchema = new mongoose.Schema({
     default: 'receptionist',
   },
 });
-// UserSchema.pre('save', async function (next) {
-//   if (!this.isModified('password')) return next();
+ReceptionistSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
 
-//   const salt = await bcrypt.genSalt(12);
-//   this.password = await bcrypt.hash(this.password, salt);
-//   this.passwordConfirm = undefined;
-//   next();
-// });
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+  this.confirmedPassword = undefined;
+  next();
+});
+ReceptionistSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  try {
+    return await bcrypt.compare(candidatePassword, userPassword);
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = mongoose.model('Receptionist', ReceptionistSchema);

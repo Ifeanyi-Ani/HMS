@@ -2,11 +2,11 @@ const express = require('express');
 
 const {
   getReceptionists,
-  createReceptionist,
   editReceptionist,
   deleteReceptionist,
   getReceptionist,
 } = require('../../controllers/users/receptionistControllers');
+const { createReceptionist } = require('../../controllers/authControllers');
 
 const router = express.Router();
 

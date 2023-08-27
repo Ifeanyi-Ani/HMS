@@ -6,10 +6,11 @@ const {
   deletePatient,
   editPatient,
 } = require('../../controllers/users/patientController');
+const { createPatient } = require('../../controllers/authControllers');
 
 const router = express.Router();
 
-router.get('/', getPatients);
+router.route('/').get(getPatients).post(createPatient);
 
 router.route('/:id').get(getPatient).patch(editPatient).delete(deletePatient);
 

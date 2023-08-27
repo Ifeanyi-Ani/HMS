@@ -5,7 +5,7 @@ exports.getReceptionists = async (req, res) => {
     const users = await Receptionist.find();
     res.status(200).json(users);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 };
 
@@ -18,7 +18,7 @@ exports.getReceptionist = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 };
 exports.editReceptionist = async (req, res) => {
@@ -35,7 +35,7 @@ exports.editReceptionist = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 };
 exports.deleteReceptionist = async (req, res) => {
@@ -49,6 +49,6 @@ exports.deleteReceptionist = async (req, res) => {
     }
     res.status(200).json({ message: 'Receptionist successfully deleted' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(404).json({ message: err.message });
   }
 };

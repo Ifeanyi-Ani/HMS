@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+
 const Hospital = require('../Hospital');
 const Receptionist = require('./Receptionist');
 
@@ -38,6 +39,7 @@ const PatientSchema = new mongoose.Schema({
   password: {
     type: String,
     select: false,
+    required: [true, 'please enter your password'],
   },
   confirmedPassword: {
     type: String,
@@ -97,4 +99,22 @@ const PatientSchema = new mongoose.Schema({
   },
 });
 
+PatientSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+  this.confirmedPassword = undefined;
+  next();
+});
+PatientSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  try {
+    return await bcrypt.compare(candidatePassword, userPassword);
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = mongoose.model('Patient', PatientSchema);
