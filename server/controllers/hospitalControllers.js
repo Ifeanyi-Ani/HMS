@@ -22,8 +22,12 @@ exports.getHospital = async (req, res) => {
   try {
     const { id } = req.params;
     const hospital = await Hospital.findById(id);
-    if (!hospital)
-      res.status(404).json({ message: 'no hospital found with that ID' });
+    if (!hospital) {
+      return res
+        .status(404)
+        .json({ message: 'no hospital found with that ID' });
+    }
+
     res.status(200).json(hospital);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -36,8 +40,12 @@ exports.editHospital = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    if (!hospital)
-      res.status(404).json({ message: 'no hospital found with that ID' });
+    if (!hospital) {
+      return res
+        .status(404)
+        .json({ message: 'no hospital found with that ID' });
+    }
+
     res.status(200).json(hospital);
   } catch (err) {
     res.status(404).json({ error: err.message });
@@ -47,10 +55,12 @@ exports.deleteHospital = async (req, res) => {
   try {
     const { id } = req.params;
     const hospital = await Hospital.findByIdAndDelete(id);
-    if (!hospital)
-      res.status(404).json({ message: 'no hospital fond with that ID' });
+    if (!hospital) {
+      return res.status(404).json({ message: 'no hospital fond with that ID' });
+    }
+
     res.status(200).json({ message: 'hospital successfully deleted' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(404).json({ error: err.message });
   }
 };
