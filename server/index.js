@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 
 const hospitalRoutes = require('./routes/hospitalRoutes');
 const { receptionistRoutes, patientRoutes } = require('./routes/users/index');
+const { login } = require('./controllers/authControllers');
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/hospitals', hospitalRoutes);
 app.use('/api/v1/receptionists', receptionistRoutes);
 app.use('/api/v1/patients', patientRoutes);
+app.post('/api/v1/login', login);
 app.all('*', (req, res, next) => {
   next(
     res

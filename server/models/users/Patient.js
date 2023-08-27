@@ -4,117 +4,54 @@ const bcrypt = require('bcrypt');
 
 const Hospital = require('../Hospital');
 const Receptionist = require('./Receptionist');
+const User = require('./User');
 
-const PatientSchema = new mongoose.Schema({
-  hospitalID: {
-    type: mongoose.Schema.ObjectId,
-    ref: Hospital,
-    required: [true, 'must belong to a hospital'],
-  },
-  receptionistID: {
-    type: mongoose.Schema.ObjectId,
-    ref: Receptionist,
-    required: [true, 'must be register by a staff'],
-  },
-  firstname: {
-    type: String,
-    required: [true, 'please enter your first name'],
-  },
-  lastname: {
-    type: String,
-    required: [true, 'please enter your last name'],
-  },
-  email: {
-    type: String,
-    required: [true, 'please enter your email'],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'please provide a valid email'],
-  },
-  gender: {
-    type: String,
-    lowercase: true,
-    enum: ['male', 'female'],
-  },
-  password: {
-    type: String,
-    select: false,
-    required: [true, 'please enter your password'],
-  },
-  confirmedPassword: {
-    type: String,
-    validate: {
-      validator: function (el) {
-        return el === this.password;
+const patientSchema = User.discriminator(
+  'Patient',
+  new mongoose.Schema({
+    hospitalID: {
+      type: mongoose.Schema.ObjectId,
+      ref: Hospital,
+      required: [true, 'must belong to a hospital'],
+    },
+    receptionistID: {
+      type: mongoose.Schema.ObjectId,
+      ref: Receptionist,
+      required: [true, 'must be register by a staff'],
+    },
+    emergencycontacts: {
+      firstname: { type: String },
+      lastname: { type: String },
+      relationship: {
+        type: String,
+        enum: ['single', 'married', 'in a relationship'],
       },
-      message: 'password are not the same',
+      phone: { type: Number },
+      email: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        validate: [validator.isEmail, 'please provide a valid email'],
+      },
     },
-  },
-  image: {
-    type: String,
-  },
-  role: {
-    type: String,
-    default: 'Patient',
-  },
-  dob: {
-    type: Date,
-    required: [true, 'enter date of birth'],
-  },
-  address: {
-    type: String,
-    required: [true, 'enter address'],
-  },
-  city: { type: String },
-  country: { type: String },
-  phone: { type: Number },
-  contacts: {
-    firstname: { type: String },
-    lastname: { type: String },
-    relationship: { type: String },
-    phone: { type: Number },
-    email: {
+    occupation: { type: String },
+    pulse: { type: String },
+    allergies: { type: String },
+    bloodgroup: {
       type: String,
-      unique: true,
-      lowercase: true,
-      validate: [validator.isEmail, 'please provide a valid email'],
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
     },
-  },
-  occupation: { type: String },
-  pulse: { type: String },
-  allergies: { type: String },
-  bloodgroup: {
-    type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-  },
-  weight: { type: String },
-  height: { type: String },
-  heartrate: { type: String },
-  temperature: { type: String },
-  bloodpressure: { type: String },
-  respiratoryrate: { type: String },
-  genotype: {
-    type: String,
-    enum: ['AA', 'AB', 'O', 'AS', 'SS'],
-  },
-});
+    weight: { type: String },
+    height: { type: String },
+    heartrate: { type: String },
+    temperature: { type: String },
+    bloodpressure: { type: String },
+    respiratoryrate: { type: String },
+    genotype: {
+      type: String,
+      enum: ['AA', 'AB', 'O', 'AS', 'SS'],
+    },
+  })
+);
 
-PatientSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-
-  const salt = await bcrypt.genSalt(12);
-  this.password = await bcrypt.hash(this.password, salt);
-  this.confirmedPassword = undefined;
-  next();
-});
-PatientSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword
-) {
-  try {
-    return await bcrypt.compare(candidatePassword, userPassword);
-  } catch (error) {
-    console.log(error);
-  }
-};
-module.exports = mongoose.model('Patient', PatientSchema);
+module.exports = mongoose.model('Patient');
