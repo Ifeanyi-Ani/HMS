@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const Receptionist = require('../models/users/Receptionist');
 const Patient = require('../models/users/Patient');
 const User = require('../models/users/User');
+const Nurse = require('../models/users/Nurse');
 
 //creating jwt token
 const signToken = id => {
@@ -49,6 +50,15 @@ exports.createReceptionist = async (req, res) => {
 exports.createPatient = async (req, res) => {
   try {
     const newUser = await Patient.create(req.body);
+    createSendToken(newUser, 201, req, res);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+// creating nurse user
+exports.createNurse = async (req, res) => {
+  try {
+    const newUser = await Nurse.create(req.body);
     createSendToken(newUser, 201, req, res);
   } catch (err) {
     res.status(500).json({ message: err.message });
