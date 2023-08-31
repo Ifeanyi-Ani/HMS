@@ -4,7 +4,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const hospitalRoutes = require('./routes/hospitalRoutes');
-const { receptionistRoutes, patientRoutes } = require('./routes/users/index');
+const {
+  receptionistRoutes,
+  patientRoutes,
+  nurseRoutes,
+} = require('./routes/users/index');
 const { login } = require('./controllers/authControllers');
 
 dotenv.config();
@@ -18,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/hospitals', hospitalRoutes);
 app.use('/api/v1/receptionists', receptionistRoutes);
 app.use('/api/v1/patients', patientRoutes);
+app.use('/api/v1/nurses', nurseRoutes);
 app.post('/api/v1/login', login);
 app.all('*', (req, res, next) => {
   next(

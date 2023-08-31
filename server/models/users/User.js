@@ -46,8 +46,17 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ['receptionist', 'patient', 'doctor', 'nurse'], // Add more roles as needed
+    enum: [
+      'receptionist',
+      'patient',
+      'doctor',
+      'nurse',
+      'accountant',
+      'pharmacist',
+      'admin',
+    ], // Add more roles as needed
   },
+  isban: { type: Boolean, default: false },
   dob: {
     type: Date,
     required: [true, 'enter date of birth'],
