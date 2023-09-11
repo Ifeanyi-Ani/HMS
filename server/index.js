@@ -8,6 +8,8 @@ const {
   receptionistRoutes,
   patientRoutes,
   nurseRoutes,
+  doctorRoutes,
+  userRoutes,
 } = require('./routes/users/index');
 const { login } = require('./controllers/authControllers');
 
@@ -23,6 +25,8 @@ app.use('/api/v1/hospitals', hospitalRoutes);
 app.use('/api/v1/receptionists', receptionistRoutes);
 app.use('/api/v1/patients', patientRoutes);
 app.use('/api/v1/nurses', nurseRoutes);
+app.use('/api/v1/doctors', doctorRoutes);
+app.use('/api/v1/users', userRoutes);
 app.post('/api/v1/login', login);
 app.all('*', (req, res, next) => {
   next(
