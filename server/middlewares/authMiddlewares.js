@@ -29,11 +29,22 @@ exports.protect = async (req, res, next) => {
       })
     );
   }
+  if (currentUser.changePasswordAfter.decoded.iat) {
+    return next(
+      res
+        .status(401)
+        .json({
+          message: 'The user currently changed password! please log in again',
+        })
+    );
+  }
+
   req.user = currentUser;
 
   // res.locals.user = currentUser;
   next();
 };
+// middleware that restrict user based on their role
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
@@ -46,6 +57,7 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+// forgot password middleware
 exports.forgotPassword = async (req, res, next) => {
   // get user based on posted email
   const user = await User.findOne({ email: req.body.email });
@@ -104,4 +116,26 @@ exports.resetPassword = async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
   res.status(200).json({ message: 'password successfully changed' });
+};
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    // get user
+    const user = await User.findById(req.user.id).select('+password');
+    // check if the current password is correct
+    if (
+      !(await user.correctPassword(req.body.currentPassword, user.password))
+    ) {
+      return next(
+        res.status(401).json({ message: 'Your current password is wrong!' })
+      );
+    }
+    // update the password
+    user.password = req.body.password;
+    user.confirmedPassword = req.body.confirmedPassword;
+    await user.save();
+    res.status(200).json({ message: 'password updated successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

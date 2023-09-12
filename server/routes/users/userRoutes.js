@@ -12,17 +12,19 @@ const {
   restrictTo,
   forgotPassword,
   resetPassword,
+  updatePassword,
 } = require('../../middlewares/authMiddlewares');
 
 const router = express.Router();
 
 router.route('/').get(protect, restrictTo('admin'), getUsers).post(createUser);
+
+router.patch('/updateMyPassword', protect, updatePassword);
+router.post('/forgotPassword', forgotPassword);
+router.patch('/resetPassword/:token', resetPassword);
 router
   .route('/:id')
   .get(protect, restrictTo('admin'), getUser)
   .patch(protect, restrictTo('admin'), editUser)
   .delete(protect, restrictTo('admin'), deleteUser);
-
-router.post('/forgotPassword', forgotPassword);
-router.patch('/resetPassword/:token', resetPassword);
 module.exports = router;
