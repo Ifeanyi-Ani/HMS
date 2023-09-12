@@ -12,6 +12,7 @@ const {
   userRoutes,
 } = require('./routes/users/index');
 const { login } = require('./controllers/authControllers');
+const wardRoutes = require('./routes/Ward');
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/v1/nurses', nurseRoutes);
 app.use('/api/v1/doctors', doctorRoutes);
 app.use('/api/v1/users', userRoutes);
 app.post('/api/v1/login', login);
+app.use('/ward', wardRoutes);
 app.all('*', (req, res, next) => {
   next(
     res

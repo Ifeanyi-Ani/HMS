@@ -6,6 +6,7 @@ const Patient = require('../models/users/Patient');
 const User = require('../models/users/User');
 const Nurse = require('../models/users/Nurse');
 const Doctor = require('../models/users/Doctor');
+const sendEmail = require('../utils/email');
 
 //creating jwt token
 const signToken = id => {
@@ -41,6 +42,11 @@ exports.login = async (req, res) => {
 exports.createReceptionist = async (req, res) => {
   try {
     const newUser = await Receptionist.create(req.body);
+    // await sendEmail({
+    //   email: newUser.email,
+    //   subject: 'Registration Successful!',
+    //   message: `Hi ${newUser.firstname} \nYour registration to Orbis Hospital Management was successful`,
+    // });
     createSendToken(newUser, 201, req, res);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -74,6 +80,8 @@ exports.createDoctor = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// creating general user. It can be admin
 exports.createUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);

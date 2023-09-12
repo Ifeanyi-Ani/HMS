@@ -4,7 +4,7 @@ const Ward = require('./Ward');
 const bedSchema = new mongoose.Schema({
   bedNumber: {
     type: String,
-    required: true,
+    required: [true, 'Please provide the bed number'],
     unique: true,
   },
   ward: {
