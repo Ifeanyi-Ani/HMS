@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Ward = require('./Ward');
 
 const bedSchema = new mongoose.Schema({
   bedNumber: {
@@ -7,12 +8,12 @@ const bedSchema = new mongoose.Schema({
     unique: true,
   },
   ward: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.ObjectId,
+    ref: Ward,
   },
   status: {
     type: String,
-    enum: ['occupied', 'vacant'],
+    enum: ['vacant', 'occupied'],
     default: 'vacant',
   },
 });
