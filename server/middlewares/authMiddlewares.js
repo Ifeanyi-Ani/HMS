@@ -29,15 +29,13 @@ exports.protect = async (req, res, next) => {
       })
     );
   }
-  if (currentUser.changePasswordAfter.decoded.iat) {
-    return next(
-      res
-        .status(401)
-        .json({
-          message: 'The user currently changed password! please log in again',
-        })
-    );
-  }
+  // if (currentUser.changePasswordAfter.decoded.iat) {
+  //   return next(
+  //     res.status(401).json({
+  //       message: 'The user currently changed password! please log in again',
+  //     })
+  //   );
+  // }
 
   req.user = currentUser;
 
@@ -76,7 +74,7 @@ exports.forgotPassword = async (req, res, next) => {
   const message = `forgot your password submit your patch request with your new password and confirmPassword to: ${resetURL}.\nIf you didn't forget your password, please ignore this email`;
   try {
     await sendEmail({
-      email: 'ifeanyiani155@gmail.com',
+      email: user.email,
       subject: 'Your password reset token',
       message,
     });
@@ -111,11 +109,16 @@ exports.resetPassword = async (req, res, next) => {
     );
   }
   user.password = req.body.password;
-  user.confirmedPassword = req.body.confirmedPassword;
+  user.confirmPassword = req.body.confirmPassword;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
-  res.status(200).json({ message: 'password successfully changed' });
+  res
+    .status(200)
+    .json({
+      message:
+        'password successfully changed! please log in with your new password',
+    });
 };
 
 exports.updatePassword = async (req, res, next) => {
@@ -132,7 +135,7 @@ exports.updatePassword = async (req, res, next) => {
     }
     // update the password
     user.password = req.body.password;
-    user.confirmedPassword = req.body.confirmedPassword;
+    user.confirmPassword = req.body.confirmPassword;
     await user.save();
     res.status(200).json({ message: 'password updated successfully' });
   } catch (err) {

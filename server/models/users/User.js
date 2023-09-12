@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
       select: false,
       required: [true, 'password is required'],
     },
-    confirmedPassword: {
+    confirmPassword: {
       type: String,
       validate: {
         validator: function (el) {
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
         message: 'password are not the same',
       },
     },
-    passwordChangeAt: Date,
+    // passwordChangeAt: Date,
     image: {
       type: String,
     },
@@ -84,8 +84,8 @@ userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
 
-  // removed the confirmedPassword from the schema
-  this.confirmedPassword = undefined;
+  // removed the confirmPassword from the schema
+  this.confirmPassword = undefined;
   next();
 });
 
@@ -99,17 +99,17 @@ userSchema.methods.correctPassword = async function (
     console.log(error);
   }
 };
-userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
-  if (this.passwordChangeAt) {
-    const changeTimestamp = parseInt(
-      this.passwordChangeAt.getTime() / 1000,
-      10
-    );
+// userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
+//   if (this.passwordChangeAt) {
+//     const changeTimestamp = parseInt(
+//       this.passwordChangeAt.getTime() / 1000,
+//       10
+//     );
 
-    return JWTTimestamp < changeTimestamp;
-  }
-  return false;
-};
+//     return JWTTimestamp < changeTimestamp;
+//   }
+//   return false;
+// };
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.passwordResetToken = crypto

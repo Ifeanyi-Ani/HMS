@@ -12,6 +12,7 @@ const {
   userRoutes,
 } = require('./routes/users/index');
 const { login } = require('./controllers/authControllers');
+const wardRoutes = require('./routes/Ward');
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/v1/nurses', nurseRoutes);
 app.use('/api/v1/doctors', doctorRoutes);
 app.use('/api/v1/users', userRoutes);
 app.post('/api/v1/login', login);
+app.use('/api/v1/wards', wardRoutes);
 app.all('*', (req, res, next) => {
   next(
     res
@@ -45,7 +47,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-mongoose.connect(process.env.LOCAL_CON_STR, {
+mongoose.connect(process.env.CON_STR, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
