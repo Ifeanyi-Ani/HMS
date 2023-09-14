@@ -57,6 +57,7 @@ const userSchema = new mongoose.Schema(
         'accountant',
         'pharmacist',
         'admin',
+        'superadmin',
       ], // Add more roles as needed
     },
     isban: { type: Boolean, default: false },
@@ -66,7 +67,6 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: [true, 'enter address'],
     },
     city: { type: String },
     country: { type: String },
