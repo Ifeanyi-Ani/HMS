@@ -3,7 +3,7 @@ import img1 from '../../images/Union.png';
 
 function Nav() {
     return (
-        <div className=''>
+        <div className='sticky'>
             <nav className='w-[100%] h-12 shadow-md text-center max-sm'>
                 <div className='flex justify-between w-[90%] mx-auto  mt-4  '>
                     <div className='text-base'>
@@ -20,6 +20,7 @@ function Nav() {
                     </div>
                 </div>
             </nav>
+
         </div>
     )
 };
