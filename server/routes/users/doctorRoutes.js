@@ -11,7 +11,7 @@ const { protect, restrictTo } = require('../../middlewares/authMiddlewares');
 
 const router = express.Router();
 
-router.route('/').get(getDoctors).post(createDoctor);
+router.route('/').get(getDoctors).post(restrictTo('admin'), createDoctor);
 router
   .route('/:id')
   .get(protect, restrictTo('doctor'), getDoctor)
