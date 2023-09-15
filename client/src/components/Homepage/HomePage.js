@@ -1,9 +1,10 @@
 import About from "./About";
+import Service from "./Service";
 
 function HomePage() {
 
     return (
-        <div className=" w-[100%] cursor-pointer">
+        <div className=" w-[100%] cursor-pointer" id="home">
             <div className='mt-20 justify-center'>
                 <h1 className='text-5xl text-center w-[40%] mx-auto font-bold text-blue-900'>Manage your Hospital like a pro</h1>
             </div>
@@ -14,6 +15,7 @@ function HomePage() {
                 <button className="bg-blue-900 p-3 font-semibold border-2 rounded-3xl w-[100%] text-white shadow">Book a demo ⇾</button>
             </div>
             <About />
+            <Service />
         </div>
     )
 };
