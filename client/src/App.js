@@ -13,6 +13,7 @@ import HomePage from "./components/Homepage/HomePage";
 // import Registration from "./components/pages/Registration";
 // import Login from "./components/pages/login";
 import "./App.css";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/contact" element={<Contact />} /> */}
 
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

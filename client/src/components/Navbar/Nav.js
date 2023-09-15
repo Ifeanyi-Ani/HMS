@@ -23,6 +23,13 @@ function Nav() {
             aboutSection.scrollIntoView({ behavior: 'smooth' });
         }
     }
+
+    const scrollToContact = () => {
+        const aboutSection = document.getElementById('contact');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     return (
         <div className='fixed w-[100%] top-0 p-0  bg-white'>
             <nav className='w-[100%] h-12 shadow-md text-center max-sm'>
@@ -35,7 +42,7 @@ function Nav() {
                             <li onClick={scrollToHome}>Home</li>
                             <li onClick={scrollToAbout}>About</li>
                             <li onClick={scrollToServices}>Services</li>
-                            <li>Contact Us</li>
+                            <li onClick={scrollToContact}>Contact Us</li>
                         </ul>
                         <Link to="/login"> <button className='text-blue-900 text-lg font-semibold border-2 rounded-3xl p-1 border-blue-900'>Login</button></Link>
                     </div>
