@@ -14,7 +14,12 @@ module.exports = {
       'desktop': '1280px',
       // => @media (min-width: 1280px) { ... }
     },
-    extend: {},
+    extend: {
+      backgroundColor: {
+        'custom-black': 'rgba(67, 66, 66, 0.5)', // Add your custom color here
+
+      },
+    },
   },
   plugins: [],
 }

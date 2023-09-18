@@ -1,8 +1,21 @@
 import { Link } from 'react-router-dom';
 import img1 from '../../images/Union.png';
-import React from 'react';
+import React, { useState } from 'react';
+// import React from 'react';
+import Login from '../Login/Login';
 
 function Nav() {
+
+
+    const [confirm, setConfirm] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const navigate = () => {
+        if (show !== true) {
+            // setConfirm(false)
+            setShow(true)
+        }
+    };
 
     const scrollToAbout = () => {
         const aboutSection = document.getElementById('about');
@@ -44,11 +57,11 @@ function Nav() {
                             <li onClick={scrollToServices}>Services</li>
                             <li onClick={scrollToContact}>Contact Us</li>
                         </ul>
-                        <Link to="/login"> <button className='text-blue-900 text-lg font-semibold border-2 rounded-3xl p-1 border-blue-900'>Login</button></Link>
+                        <Link to="" onClick={navigate}> <button className='text-blue-900 text-lg font-semibold border-2 rounded-3xl p-1 border-blue-900'>Login</button></Link>
                     </div>
                 </div>
             </nav>
-
+            {show ? (<Login />) : null}
         </div>
     )
 };

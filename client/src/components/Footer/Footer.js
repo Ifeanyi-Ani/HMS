@@ -8,6 +8,7 @@ import { AiFillInstagram } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import { BsGoogle } from "react-icons/bs";
+// import { MdLocationOn } from "react-icons/md";
 function Footer() {
 
     const scrollToAbout = () => {
