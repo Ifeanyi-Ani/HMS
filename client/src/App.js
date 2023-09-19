@@ -14,6 +14,7 @@ import HomePage from "./components/Homepage/HomePage";
 // import Login from "./components/pages/login";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/*<Route path="/about" element={<About />} />
+        {/*<Route path="/login" element={<Login />} /> 
         <Route path="/services" element={<Services />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/users" element={<Users />} />
