@@ -10,6 +10,7 @@ const HospitalSchema = new mongoose.Schema({
     type: String,
     required: [true, 'please enter the hospital address'],
   },
+  country: String,
   website: String,
   Tel: Number,
   email: String,

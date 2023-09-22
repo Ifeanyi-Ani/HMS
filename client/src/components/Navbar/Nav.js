@@ -1,23 +1,68 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.min.js';
-// import Navbar from 'react-bootstrap/Navbar';
-// import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 import img1 from '../../images/Union.png';
+import React, { useState } from 'react';
+// import React from 'react';
+import Login from '../Login/Login';
 
 function Nav() {
+
+
+    const [confirm, setConfirm] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const navigate = () => {
+        if (show !== true) {
+            // setConfirm(false)
+            setShow(true)
+        }
+    };
+
+    const scrollToAbout = () => {
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    const scrollToServices = () => {
+        const aboutSection = document.getElementById('services');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    const scrollToHome = () => {
+        const aboutSection = document.getElementById('home');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    const scrollToContact = () => {
+        const aboutSection = document.getElementById('contact');
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     return (
-        <nav>
-            <div className='logo'>
-                <img src={img1} class="" alt="" />
-            </div>
-            <ul className='flex'>
-                <li>Home</li>
-                <li>About</li>
-                <li>Services</li>
-                <li>Contact Us</li>
-                <button>Login/SignUp</button>
-            </ul>
-        </nav>
+        <div className='fixed w-[100%] top-0 p-0  bg-white'>
+            <nav className='w-[100%] h-12 shadow-md text-center max-sm'>
+                <div className='flex justify-between w-[90%] mx-auto  mt-4  '>
+                    <div className='text-base'>
+                        <img src={img1} class="" alt="" />
+                    </div>
+                    <div className='flex gap-4'>
+                        <ul className='flex gap-4 text-blue-900 text-lg font-semibold cursor-pointer'>
+                            <li onClick={scrollToHome}>Home</li>
+                            <li onClick={scrollToAbout}>About</li>
+                            <li onClick={scrollToServices}>Services</li>
+                            <li onClick={scrollToContact}>Contact Us</li>
+                        </ul>
+                        <Link to="" onClick={navigate}> <button className='text-blue-900 text-lg font-semibold border-2 rounded-3xl p-1 border-blue-900'>Login</button></Link>
+                    </div>
+                </div>
+            </nav>
+            {show ? (<Login />) : null}
+        </div>
     )
 };
 export default Nav;
