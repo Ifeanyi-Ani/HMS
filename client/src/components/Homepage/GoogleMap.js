@@ -7,15 +7,15 @@ class GoogleMap extends React.Component {
     const mapStyles = {
       width: '100%',
       height: '600px',
-      zIndex: '10 !important',
+      zIndex: '0 !important',
     };
 
     return (
       <div
-        className="w-[90%] mx-auto grid grid-cols-2 my-10 gap-5"
+        className="w-[90%] mx-auto grid grid-cols-2 my-10 gap-5 z-0"
         id="contact"
       >
-        <div className="relative">
+        <div className="relative z-0">
           <Map
             google={this.props.google}
             zoom={14}

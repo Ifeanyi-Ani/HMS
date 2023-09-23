@@ -6,10 +6,16 @@ import img1 from '../../images/Union.png';
 import { dataContext } from '../../context';
 function Login() {
   const { show, setShow } = useContext(dataContext);
-  console.log(show);
+
   return (
-    <div className="h-[100%] fixed top-0 l-0 z-[1000] justify-center w-[100%] bg-custom-black z-[1000]">
-      <div className="w-[30%] mx-auto bg-white p-[10px] rounded-2xl ">
+    <div
+      className="h-[100%] fixed top-0 l-0 z-[1000] justify-center w-[100%] bg-custom-black"
+      onClick={() => setShow(false)}
+    >
+      <div
+        className="w-[30%] mx-auto bg-white p-[10px] rounded-2xl "
+        onClick={e => e.stopPropagation()}
+      >
         <div className="w-[90%] mx-auto">
           <div className="flex justify-between mt-10 cursor-pointer">
             <img src={img1} class="w-[15%]" alt="" />
@@ -17,12 +23,12 @@ function Login() {
               <AiOutlineClose onClick={() => setShow(false)} />
             </span>
           </div>
-          <div className="mt-[50px] flex flex-col cursor-pointer">
+          {/* <div className="mt-[50px] flex flex-col cursor-pointer">
             <p className="mb-4 text-gray-400 font-bold">
               Already have an account?
             </p>
             <p className="text-xl text-blue-900 font-bold "> Log In</p>
-          </div>
+          </div> */}
           <form className="my-[50px]">
             <div className="flex flex-col mb-5">
               <label htmlFor="email" className="text-sm text-gray-500 mb-1">
