@@ -7,6 +7,7 @@ export const DataProvider = ({ children }) => {
     show,
     setShow,
   };
+  const [currentUser, setCurrentUser] = useState();
   return (
     <dataContext.Provider value={dataValue}>{children}</dataContext.Provider>
   );
