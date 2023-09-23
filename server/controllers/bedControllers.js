@@ -63,3 +63,4 @@ exports.deleteBed = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+exports.del = async (req, res) => {};
