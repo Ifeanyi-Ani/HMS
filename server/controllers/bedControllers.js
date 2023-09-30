@@ -1,66 +1,97 @@
+const { default: mongoose } = require('mongoose');
 const Bed = require('../models/Bed');
-exports.getBeds = async (req, res) => {
+const createError = require('http-errors');
+exports.getBeds = async (req, res, next) => {
   try {
-    const beds = await Bed.find();
+    let query = Bed.find();
+    //apply filtering options
+    if (req.query.filterBy) {
+      query = query.where(req.query.filterBy);
+    }
+    //apply sorting options
+    if (req.query.sortBy) {
+      query = query.sort(req.query.sortBy);
+    }
+    const beds = await query.exec();
     res.status(200).json(beds);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
-exports.createBed = async (req, res) => {
+exports.createBed = async (req, res, next) => {
   try {
+    const existingBed = await Bed.findOne({ name: req.body.name });
+    if (existingBed) {
+      throw createError(409, 'Bed already exist');
+    }
     const newBed = await Bed.create(req.body);
-    res.status(201).json(newBed);
+    if (newBed) {
+      res.status(201).json(newBed);
+    } else {
+      throw createError(404, 'Failed to create bed');
+    }
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (err.name === validationError) {
+      return next(createError(422, err.message));
+    }
+    next(err);
   }
 };
-exports.getBedsInWard = async (req, res) => {
+exports.getBedsInWard = async (req, res, next) => {
   try {
     const { wardId } = req.params;
     const beds = await Bed.find({ ward: wardId });
     if (!beds) {
-      return res.status(404).json({ message: 'No ward found with that ID' });
+      throw createError(404, 'No bed found with that ward ID');
     }
     res.status(200).json(beds);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid ward ID'));
+    }
+    next(err);
   }
 };
-exports.getBed = async (req, res) => {
+exports.getBed = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const bed = await Bed.find(id);
+    const bed = await Bed.findById(id);
     if (!bed) {
-      return res.status(404).json({ message: 'No bed found with that ID' });
+      throw createError(404, 'No bed found with that ID');
     }
     res.status(200).json(bed);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
-exports.editBed = async (req, res) => {
+exports.editBed = async (req, res, next) => {
   try {
     const { id } = req.params;
     const bed = await Bed.findByIdAndUpdate(id, req.body, { new: true });
     if (!bed) {
-      return res.status(404).json({ message: 'No bed found with that ID' });
+      throw createError(404, 'No bed found with that ID');
     }
     res.status(200).json(bed);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid bed ID'));
+    }
+    next(err);
   }
 };
-exports.deleteBed = async (req, res) => {
+exports.deleteBed = async (req, res, next) => {
   try {
     const { id } = req.params;
     const bed = await Bed.findByIdAndDelete(id);
     if (!bed) {
-      return res.status(404).json({ message: 'No bed found with that ID' });
+      throw createError(404, 'No bed found with that ID');
     }
     res.status(200).json({ message: 'Bed deleted successfully' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid bed ID'));
+    }
+    next(err);
   }
 };
 exports.del = async (req, res) => {};

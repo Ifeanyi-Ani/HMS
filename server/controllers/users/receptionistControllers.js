@@ -1,27 +1,32 @@
+const { default: mongoose } = require('mongoose');
 const Receptionist = require('../../models/users/Receptionist');
+const createError = require('http-errors');
 
-exports.getReceptionists = async (req, res) => {
+exports.getReceptionists = async (req, res, next) => {
   try {
     const users = await Receptionist.find();
     res.status(200).json(users);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.getReceptionist = async (req, res) => {
+exports.getReceptionist = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await Receptionist.findById(id);
     if (!user) {
-      return res.status(404).json({ message: 'Receptionist not found' });
+      throw createError(404, 'No receptionist found with that ID');
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid receptionist ID'));
+    }
+    next(err);
   }
 };
-exports.editReceptionist = async (req, res) => {
+exports.editReceptionist = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await Receptionist.findByIdAndUpdate(id, req.body, {
@@ -29,26 +34,28 @@ exports.editReceptionist = async (req, res) => {
       runValidators: true,
     });
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: 'no Receptionist found with that ID' });
+      throw createError(404, 'No receptionist found with that ID');
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid receptionist ID'));
+    }
+    next(err);
   }
 };
-exports.deleteReceptionist = async (req, res) => {
+exports.deleteReceptionist = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await Receptionist.findByIdAndDelete(id);
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: 'no Receptionist found with that ID' });
+      throw createError(404, 'No receptionist found with that ID');
     }
     res.status(200).json({ message: 'Receptionist successfully deleted' });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid receptionist ID'));
+    }
+    next(err);
   }
 };

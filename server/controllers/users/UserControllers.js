@@ -1,27 +1,32 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../../models/users/User');
+const createError = require('http-errors');
 
-exports.getUsers = async (req, res) => {
+exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found with that ID' });
+      throw createError(404, 'No user found with that ID');
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid user ID'));
+    }
+    next(err);
   }
 };
-exports.editUser = async (req, res) => {
+exports.editUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndUpdate(id, req.body, {
@@ -29,22 +34,28 @@ exports.editUser = async (req, res) => {
       runValidators: true,
     });
     if (!user) {
-      return res.status(404).json({ message: 'no User found with that ID' });
+      throw createError(404, 'No user found with that ID');
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid user ID'));
+    }
+    next(err);
   }
 };
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return res.status(404).json({ message: 'no User found with that ID' });
+      throw createError(404, 'No user found with that ID');
     }
     res.status(200).json({ message: 'User successfully deleted' });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    if (err instanceof mongoose.CastError) {
+      return next(createError(400, 'Invalid user ID'));
+    }
+    next(err);
   }
 };

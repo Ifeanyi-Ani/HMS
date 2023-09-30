@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -23,28 +24,24 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/hospitals', hospitalRoutes);
-app.use('/api/v1/receptionists', receptionistRoutes);
-app.use('/api/v1/patients', patientRoutes);
-app.use('/api/v1/nurses', nurseRoutes);
-app.use('/api/v1/doctors', doctorRoutes);
-app.use('/api/v1/users', userRoutes);
-app.post('/api/v1/login', login);
-app.use('/api/v1/wards', wardRoutes);
-app.use('/api/v1/beds', bedRoutes);
+app.use('/hospitals', hospitalRoutes);
+app.use('/receptionists', receptionistRoutes);
+app.use('/patients', patientRoutes);
+app.use('/nurses', nurseRoutes);
+app.use('/doctors', doctorRoutes);
+app.use('/users', userRoutes);
+app.post('/login', login);
+app.use('/wards', wardRoutes);
+app.use('/beds', bedRoutes);
 app.all('*', (req, res, next) => {
-  next(
-    res
-      .status(404)
-      .json({ message: `can't find ${req.originalUrl} on this server` })
-  );
+  next(createError(404, `can't find ${req.originalUrl} on this server`));
 });
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
   res.status(err.statusCode).json({
-    status: err.status,
+    status: err.status || 500,
     message: err.message,
   });
 });
