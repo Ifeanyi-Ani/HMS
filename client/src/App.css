@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.off{
+    display: none;
+}
+.on{
+    display: flex;
+}
