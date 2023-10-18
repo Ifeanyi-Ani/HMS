@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 
 const Receptionist = require('../models/users/Receptionist');

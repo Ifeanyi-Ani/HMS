@@ -3,7 +3,7 @@
 const readline = require('readline');
 const mongoose = require('mongoose');
 const User = require('./models/users/User'); // Import your User model
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 
 dotenv.config();
