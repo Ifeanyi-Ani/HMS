@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import img1 from '../../images/Union.png';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // import React from 'react';
 import Login from '../Login/Login';
 import { dataContext } from '../../context';
-
 
 function Nav() {
   const { show, setShow } = useContext(dataContext);

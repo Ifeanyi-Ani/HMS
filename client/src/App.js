@@ -1,25 +1,32 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DataProvider } from './context/';
-import Nav from './components/Navbar/Nav';
 import HomePage from './components/Homepage/HomePage';
 
-import './App.css';
-import Footer from './components/Footer/Footer';
 import Patient from './components/Patient';
 import RootLayout from './layouts/RootLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/',
       element: <RootLayout />,
       children: [
         {
-          index: true,
+          path: '/',
           element: <HomePage />,
         },
         {
           path: 'about',
+          element: <Patient />,
+        },
+      ],
+    },
+    {
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: 'patient',
           element: <Patient />,
         },
       ],
