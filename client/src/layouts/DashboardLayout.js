@@ -1,5 +1,3 @@
-import Sidebar from '../components/Sidebar';
-
 import img1 from '../images/Union.png';
 import { Outlet } from 'react-router-dom';
 

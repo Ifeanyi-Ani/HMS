@@ -5,8 +5,16 @@ import React, { useState, useContext } from 'react';
 import img1 from '../../images/Union.png';
 import { dataContext } from '../../context';
 function Login() {
-  const { show, setShow } = useContext(dataContext);
-
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const { show, setShow, currentUser, signIn } = useContext(dataContext);
+  const handleSubmit = e => {
+    e.preventDefault();
+    signIn(formData);
+  };
+  console.log(currentUser);
   return (
     <div
       className="h-[100%] fixed top-0 l-0 z-[1000] justify-center w-[100%] bg-custom-black"
@@ -35,7 +43,11 @@ function Login() {
                 Email
               </label>
               <input
-                type="text"
+                type="email"
+                value={formData.email}
+                onChange={e =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="border-2 bg-inherit outline-none rounded-xl p-2"
               />
             </div>
@@ -45,11 +57,18 @@ function Login() {
               </label>
               <input
                 type="password"
+                value={formData.password}
+                onChange={e =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 className="border-2 bg-inherit outline-none rounded-xl p-2"
               />
             </div>
             <div className="flex flex-col">
-              <button className="bg-blue-950 outline-none rounded-xl p-2 w-[100%] mt-[50px] text-white font-bold">
+              <button
+                className="bg-blue-950 outline-none rounded-xl p-2 w-[100%] mt-[50px] text-white font-bold"
+                onClick={handleSubmit}
+              >
                 Log In
               </button>
               <p className="text-blue-800 hover:underline cursor-pointer mt-5 mb-[140px] text-center">

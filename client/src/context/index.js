@@ -3,18 +3,24 @@ import API from '../api/base';
 export const dataContext = React.createContext();
 export const DataProvider = ({ children }) => {
   const [show, setShow] = useState(false);
-  const dataValue = {
-    show,
-    setShow,
-  };
+
   const [currentUser, setCurrentUser] = useState();
   const profile = localStorage.getItem('profile');
   const signIn = async formData => {
-    const response = await API.post('/login', formData);
-    const data = response.data;
-    setCurrentUser(data);
+    try {
+      const response = await API.post('/login', formData);
+      const data = response.data;
+      setCurrentUser(data);
+    } catch (err) {
+      alert(err?.response?.data?.message);
+    }
   };
-
+  const dataValue = {
+    show,
+    setShow,
+    currentUser,
+    signIn,
+  };
   return (
     <dataContext.Provider value={dataValue}>{children}</dataContext.Provider>
   );
