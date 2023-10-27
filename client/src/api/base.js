@@ -8,5 +8,6 @@ API.interceptors.request.use(req => {
       localStorage.getItem('profile')
     )}`;
   }
+  return req;
 });
 export default API;

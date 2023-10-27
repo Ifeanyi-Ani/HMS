@@ -6,20 +6,34 @@ export const DataProvider = ({ children }) => {
 
   const [currentUser, setCurrentUser] = useState();
   const profile = localStorage.getItem('profile');
+  const [loggedin, setLoggedin] = useState(false);
+  const checkProfle = () => {
+    if (profile) {
+      let user = JSON.parse(profile);
+      setCurrentUser(user);
+      setLoggedin(true);
+    }
+  };
   const signIn = async formData => {
     try {
       const response = await API.post('/login', formData);
       const data = response.data;
+      localStorage.setItem('profile', JSON.stringify({ ...data }));
       setCurrentUser(data);
+      setLoggedin(true);
     } catch (err) {
       alert(err?.response?.data?.message);
     }
   };
+  useEffect(function () {
+    checkProfle();
+  }, []);
   const dataValue = {
     show,
     setShow,
     currentUser,
     signIn,
+    loggedin,
   };
   return (
     <dataContext.Provider value={dataValue}>{children}</dataContext.Provider>

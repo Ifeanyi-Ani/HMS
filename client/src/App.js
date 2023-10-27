@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DataProvider } from './context/';
 import HomePage from './components/Homepage/HomePage';
+import { dataContext } from './context/';
 
 import Patient from './components/Patient';
+import NotFoundPage from './components/NotFoundPage';
 import RootLayout from './layouts/RootLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 
@@ -16,20 +18,40 @@ function App() {
           path: '/',
           element: <HomePage />,
         },
-        {
-          path: 'about',
-          element: <Patient />,
-        },
       ],
     },
     {
       element: <DashboardLayout />,
       children: [
         {
+          path: 'nurse',
+          element: <Patient />,
+        },
+        {
+          path: 'receptionist',
+          element: <Patient />,
+        },
+        {
+          path: 'accountant',
+          element: <Patient />,
+        },
+        {
           path: 'patient',
           element: <Patient />,
         },
+        {
+          path: 'doctor',
+          element: <Patient />,
+        },
+        {
+          path: 'pharmacy',
+          element: <Patient />,
+        },
       ],
+    },
+    {
+      path: '/*',
+      element: <NotFoundPage />,
     },
   ]);
   return (

@@ -1,10 +1,11 @@
 import { AiOutlineClose } from 'react-icons/ai';
 // import axios from 'axios';
 import React, { useState, useContext } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
 import img1 from '../../images/Union.png';
+import { useNavigate } from 'react-router-dom';
 import { dataContext } from '../../context';
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -13,6 +14,7 @@ function Login() {
   const handleSubmit = e => {
     e.preventDefault();
     signIn(formData);
+    navigate(`${currentUser?.user?.role}`);
   };
   console.log(currentUser);
   return (
