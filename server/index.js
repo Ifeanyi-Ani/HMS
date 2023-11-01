@@ -15,6 +15,7 @@ const {
 const { login } = require('./controllers/authControllers');
 const wardRoutes = require('./routes/Ward');
 const bedRoutes = require('./routes/Bed');
+const uploadRoutes = require('./routes/upload');
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.use('/users', userRoutes);
 app.post('/login', login);
 app.use('/wards', wardRoutes);
 app.use('/beds', bedRoutes);
+app.use('/', uploadRoutes);
 app.all('*', (req, res, next) => {
   next(createError(404, `can't find ${req.originalUrl} on this server`));
 });

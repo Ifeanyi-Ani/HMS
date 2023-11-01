@@ -20,7 +20,6 @@ const DashboardLayout = () => {
       </div>
 
       <div className="flex h-screen">
-        <div className=" display: flex; "></div>
         <Outlet />
       </div>
     </>
