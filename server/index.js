@@ -34,7 +34,7 @@ app.use('/users', userRoutes);
 app.post('/login', login);
 app.use('/wards', wardRoutes);
 app.use('/beds', bedRoutes);
-app.use('/', uploadRoutes);
+app.use('/uploads', uploadRoutes);
 app.all('*', (req, res, next) => {
   next(createError(404, `can't find ${req.originalUrl} on this server`));
 });
