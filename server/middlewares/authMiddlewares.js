@@ -1,3 +1,4 @@
+const createError = require('http-errors');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/users/User');
@@ -6,63 +7,66 @@ const crypto = require('crypto');
 
 //authorization middleware that give access to loggedin user
 exports.protect = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-  if (!token) {
-    return next(
-      res
-        .status(401)
-        .json({ message: 'You are not logged in! Please log in to get access' })
-    );
-  }
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const currentUser = await User.findById(decoded.id);
-  if (!currentUser) {
-    return next(
-      res.status(401).json({
-        message: 'The user belonging to this token does no longer exist.',
-      })
-    );
-  }
-  // if (currentUser.changePasswordAfter.decoded.iat) {
-  //   return next(
-  //     res.status(401).json({
-  //       message: 'The user currently changed password! please log in again',
-  //     })
-  //   );
-  // }
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (!token) {
+      return next(
+        createError(401, 'You are not logged in! Please log in to get access')
+      );
+    }
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next(
+        createError(
+          401,
+          'The user belonging to this token does no longer exist.'
+        )
+      );
+    }
+    // if (currentUser.changePasswordAfter.decoded.iat) {
+    //   return next(
+    //     res.status(401).json({
+    //       message: 'The user currently changed password! please log in again',
+    //     })
+    //   );
+    // }
 
-  req.user = currentUser;
+    req.user = currentUser;
 
-  // res.locals.user = currentUser;
-  next();
+    // res.locals.user = currentUser;
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 // middleware that restrict user based on their role
 exports.restrictTo = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        res.status(403).json({
-          message: 'You do not have permission to perform this action',
-        })
-      );
-    }
-    next();
-  };
+  try {
+    return (req, res, next) => {
+      if (!roles.includes(req.user.role)) {
+        return next(
+          createError(403, 'You do not have permission to perform this action')
+        );
+      }
+      next();
+    };
+  } catch (error) {
+    next(error);
+  }
 };
 // forgot password middleware
 exports.forgotPassword = async (req, res, next) => {
   // get user based on posted email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return next(
-      res.status(404).json({ message: 'There is no user found with that ID' })
-    );
+    return next(createError(404, 'There is no user found with that ID'));
   }
   // generate random reset token
   const resetToken = user.createPasswordResetToken();
@@ -86,9 +90,10 @@ exports.forgotPassword = async (req, res, next) => {
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
     return next(
-      res.status(500).json({
-        message: 'There was an error sending the email... try again later',
-      })
+      createError(
+        500,
+        'There was an error sending the email... try again later'
+      )
     );
   }
   // next();
@@ -104,21 +109,18 @@ exports.resetPassword = async (req, res, next) => {
     passwordResetExpires: { $gt: Date.now() },
   });
   if (!user) {
-    return next(
-      res.status(400).json({ message: 'token is invalid or has expired' })
-    );
+    return next(createError(400, 'token is invalid or has expired'));
   }
   user.password = req.body.password;
   user.confirmPassword = req.body.confirmPassword;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   await user.save();
-  res
-    .status(200)
-    .json({
-      message:
-        'password successfully changed! please log in with your new password',
-    });
+
+  res.status(200).json({
+    message:
+      'password successfully changed! please log in with your new password',
+  });
 };
 
 exports.updatePassword = async (req, res, next) => {
@@ -129,9 +131,7 @@ exports.updatePassword = async (req, res, next) => {
     if (
       !(await user.correctPassword(req.body.currentPassword, user.password))
     ) {
-      return next(
-        res.status(401).json({ message: 'Your current password is wrong!' })
-      );
+      return next(createError(401, 'Your current password is wrong!'));
     }
     // update the password
     user.password = req.body.password;
