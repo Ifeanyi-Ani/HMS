@@ -25,6 +25,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/', async (req, res, next) => {
+  res
+    .status(200)
+    .json({
+      message: 'Welcome to Orbis Hospital Management System platform API',
+    });
+});
 app.use('/hospitals', hospitalRoutes);
 app.use('/receptionists', receptionistRoutes);
 app.use('/patients', patientRoutes);
