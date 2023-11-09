@@ -1,48 +1,7 @@
-import React from 'react';
-import Sidebar from './Sidebar';
-
-import { FaHome } from 'react-icons/fa';
-import { GrUserWorker } from 'react-icons/gr';
-import { AiFillMedicineBox } from 'react-icons/ai';
 import { MdPeople } from 'react-icons/md';
-import { FaBed } from 'react-icons/fa';
 import { FaUserPlus } from 'react-icons/fa';
-import img1 from '../../src/images/Union.png';
 import { Link } from 'react-router-dom';
-const Patient = () => {
-  const data = [
-    {
-      name: 'John Doe',
-      address: '123 Main St',
-      ailment: 'Fever',
-      cure: 'Medicine A',
-    },
-    {
-      name: 'Jane Smith',
-      address: '456 Elm St',
-      ailment: 'Headache',
-      cure: 'Medicine B',
-    },
-    {
-      name: 'Alice Johnson',
-      address: '789 Oak St',
-      ailment: 'Cough',
-      cure: 'Medicine C',
-    },
-    {
-      name: 'Bob Wilson',
-      address: '101 Pine St',
-      ailment: 'Back Pain',
-      cure: 'Medicine D',
-    },
-    {
-      name: 'Eva Davis',
-      address: '202 Maple St',
-      ailment: 'Allergies',
-      cure: 'Medicine E',
-    },
-  ];
-
+const Admin = () => {
   return (
     <>
       <aside className="fixed w-[300px] h-full overflow-hidden shadow-lg ring-1 ring-gray-100 ring-inset">
@@ -103,4 +62,4 @@ const Patient = () => {
     </>
   );
 };
-export default Patient;
+export default Admin;

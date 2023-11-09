@@ -18,9 +18,9 @@ export const DataProvider = ({ children }) => {
     try {
       const response = await API.post('/login', formData);
       const data = response.data;
-      localStorage.setItem('profile', JSON.stringify({ ...data }));
       setCurrentUser(data);
       setLoggedin(true);
+      localStorage.setItem('profile', JSON.stringify({ ...data }));
     } catch (err) {
       alert(err?.response?.data?.message);
     }
