@@ -26,11 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/', async (req, res, next) => {
-  res
-    .status(200)
-    .json({
-      message: 'Welcome to Orbis Hospital Management System platform API',
-    });
+  res.status(200).json({
+    message: 'Welcome to Orbis Hospital Management System platform API',
+  });
+  next();
 });
 app.use('/hospitals', hospitalRoutes);
 app.use('/receptionists', receptionistRoutes);
