@@ -1,6 +1,14 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 
+import { FaHome } from 'react-icons/fa';
+import { GrUserWorker } from 'react-icons/gr';
+import { AiFillMedicineBox } from 'react-icons/ai';
+import { MdPeople } from 'react-icons/md';
+import { FaBed } from 'react-icons/fa';
+import { FaUserPlus } from 'react-icons/fa';
+import img1 from '../../src/images/Union.png';
+import { Link } from 'react-router-dom';
 const Patient = () => {
   const data = [
     {
@@ -37,56 +45,61 @@ const Patient = () => {
 
   return (
     <>
-      <Sidebar />
-      <div className="w-full pt-10 px-4 py-2">
-        <table className="w-6 divide-y divide-gray-200 ">
-          <thead className="bg-white">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                #
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Name
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Address
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Ailment
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Cure
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((row, index) => (
-              <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{row.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{row.address}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{row.ailment}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{row.cure}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <aside className="fixed w-[300px] h-full overflow-hidden shadow-lg ring-1 ring-gray-100 ring-inset">
+        <ul className="absolute top-0 left-0 w-full">
+          <li className="w-full list-none rounded-[30px] hover:bg-gray-50">
+            <Link className="flex w-full">
+              <span className="block min-w-[60px] h-[60px] text-center">
+                <MdPeople className="text-[1.75rem]" />
+              </span>
+              <span className="block h-[60px] text-start whitespace-nowrap">
+                Users
+              </span>
+            </Link>
+          </li>
+        </ul>
+      </aside>
+
+      <main className="absolute w-[calc(100%-300px)] left-[300px] min-h-[100vh] overflow-hidden ">
+        <div className="w-full h-full p-[20px] grid grid-cols-4 gap-[30px]">
+          <Link className="bg-white p-[30px] rounded-[20px] flex justify-between cursor-pointer shadow-md ring-1 ring-inset ring-gray-300 hover:shadow-none hover:ring-0">
+            <div>
+              <div className="font-semibold text-[2.5rem]">56</div>
+              <div className="text-[#222] text-[1.1rem] mt-1">User's</div>
+            </div>
+            <div className="text-[3.5rem]">
+              <MdPeople />
+            </div>
+          </Link>
+          <Link className="bg-white p-[30px] rounded-[20px] flex justify-between cursor-pointer shadow-md ring-1 ring-inset ring-gray-300 hover:shadow-none hover:ring-0">
+            <div>
+              <div className="font-semibold text-[2.5rem]">New</div>
+              <div className="text-[#222] text-[1.1rem] mt-1">User's</div>
+            </div>
+            <div className="text-[3.5rem]">
+              <FaUserPlus />
+            </div>
+          </Link>
+          <Link className="bg-white p-[30px] rounded-[20px] flex justify-between cursor-pointer shadow-md ring-1 ring-inset ring-gray-300 hover:shadow-none hover:ring-0">
+            <div>
+              <div className="font-semibold text-[2.5rem]">56</div>
+              <div className="text-[#222] text-[1.1rem] mt-1">User's</div>
+            </div>
+            <div className="text-[3.5rem]">
+              <MdPeople />
+            </div>
+          </Link>
+          <Link className="bg-white p-[30px] rounded-[20px] flex justify-between cursor-pointer shadow-md ring-1 ring-inset ring-gray-300 hover:shadow-none hover:ring-0">
+            <div>
+              <div className="font-semibold text-[2.5rem]">56</div>
+              <div className="text-[#222] text-[1.1rem] mt-1">User's</div>
+            </div>
+            <div className="text-[3.5rem]">
+              <MdPeople />
+            </div>
+          </Link>
+        </div>
+      </main>
     </>
   );
 };
