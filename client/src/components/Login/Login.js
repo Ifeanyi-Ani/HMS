@@ -4,6 +4,9 @@ import React, { useState, useContext } from 'react';
 import img1 from '../../images/Union.png';
 import { useNavigate } from 'react-router-dom';
 import { dataContext } from '../../context';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../redux/features/userSlice';
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
