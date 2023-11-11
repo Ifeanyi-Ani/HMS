@@ -5,6 +5,7 @@ import img1 from '../../images/Union.png';
 import { useNavigate } from 'react-router-dom';
 import { dataContext } from '../../context';
 import { toast } from 'react-toastify';
+import { MoonLoader } from 'react-spinners';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { loggedUser, signIn } from '../../redux/features/authSlice';
@@ -13,6 +14,7 @@ function Login() {
   const { isSuccess, isLoading, currentUser, message } =
     useSelector(loggedUser);
 
+  const override = {};
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -37,6 +39,7 @@ function Login() {
   useEffect(() => {
     if (isSuccess) {
       toast.success('user login successfully');
+
       navigate('/admin');
     }
   }, [isSuccess, navigate]);
@@ -76,10 +79,13 @@ function Login() {
           </div>
           <div className="flex flex-col">
             <button
-              className="bg-blue-950 outline-none rounded-xl p-2 w-[100%] mt-[50px] text-white font-bold"
+              className={`outline-none rounded-xl p-2 w-[100%] mt-[50px] text-white font-bold ${
+                isLoading ? 'bg-[rgba(23,37,84,.4)]' : 'bg-blue-950'
+              }`}
               onClick={handleSubmit}
+              disabled={isLoading}
             >
-              Log In
+              {isLoading ? 'Logging in' : 'Log in'}
             </button>
             <p className="text-blue-800 hover:underline cursor-pointer mt-5 mb-[140px] text-center">
               Forgot Password?
@@ -87,6 +93,15 @@ function Login() {
           </div>
         </form>
       </div>
+      {isLoading && (
+        <div className="absolute top-0 right-0 rounded-2xl left-0 bottom-0 bg-[rgba(0,0,0,0.2)] flex justify-center items-center">
+          <MoonLoader
+            color="rgb(23,37,84)"
+            loading={isLoading}
+            cssOverride={override}
+          />
+        </div>
+      )}
     </>
   );
 }
