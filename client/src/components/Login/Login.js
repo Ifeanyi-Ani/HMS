@@ -42,7 +42,7 @@ function Login() {
   }, [isSuccess, navigate]);
   return (
     <>
-      <div className="w-[90%] mx-auto">
+      <div className="w-[90%] mx-auto mt-10">
         <div className="flex justify-between mt-10 cursor-pointer">
           <img src={img1} class="w-[15%]" alt="" />
         </div>
