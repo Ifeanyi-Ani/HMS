@@ -12,11 +12,12 @@ import DashboardLayout from './layouts/DashboardLayout';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReceptionist, selectAll } from './redux/features/users/userSlice';
+import Login from './components/Login/Login';
 
 function App() {
   const dispatch = useDispatch();
   const receptionists = useSelector(selectAll);
-  console.log(receptionists);
+
   useEffect(() => {
     dispatch(fetchReceptionist());
   }, []);
@@ -27,6 +28,10 @@ function App() {
         {
           path: '/',
           element: <HomePage />,
+        },
+        {
+          path: '/login',
+          element: <Login />,
         },
       ],
     },
