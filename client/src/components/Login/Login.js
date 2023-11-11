@@ -40,7 +40,10 @@ function Login() {
     if (isSuccess) {
       toast.success('user login successfully');
 
-      navigate('/admin');
+      navigate(`/${currentUser.user?.role}`);
+    }
+    if (currentUser) {
+      navigate(`/${currentUser.user?.role}`);
     }
   }, [isSuccess, navigate]);
   return (
