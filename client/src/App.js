@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DataProvider } from './context/';
 import HomePage from './components/Homepage/HomePage';
@@ -11,16 +11,18 @@ import RootLayout from './layouts/RootLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchReceptionist, selectAll } from './redux/features/users/userSlice';
 import Login from './components/Login/Login';
+import { loggedIn } from './redux/features/authSlice';
 
 function App() {
   const dispatch = useDispatch();
-  const receptionists = useSelector(selectAll);
-
+  const [loading, setloading] = useState(true);
   useEffect(() => {
-    dispatch(fetchReceptionist());
-  }, []);
+    if (loading) {
+      dispatch(loggedIn());
+      setloading(false);
+    }
+  }, [loading, dispatch]);
   const router = createBrowserRouter([
     {
       element: <RootLayout />,
