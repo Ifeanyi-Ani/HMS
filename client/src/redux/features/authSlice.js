@@ -25,7 +25,10 @@ const authSlice = createSlice({
     loggedIn: (state, _) => {
       state.currentUser = JSON.parse(localStorage.getItem('profile'));
     },
-    logout: () => localStorage.clear('profile'),
+    logout: (state, _) => {
+      state.currentUser = null;
+      localStorage.clear('profile');
+    },
   },
   extraReducers: {
     [signIn.pending]: (state, _) => {
