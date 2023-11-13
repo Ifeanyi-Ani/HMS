@@ -21,6 +21,7 @@ exports.protect = async (req, res, next) => {
       );
     }
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
       return next(
@@ -74,7 +75,7 @@ exports.forgotPassword = async (req, res, next) => {
 
   const resetURL = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/resetPassword/${resetToken}`;
+  )}/users/resetPassword/${resetToken}`;
   const message = `forgot your password submit your patch request with your new password and confirmPassword to: ${resetURL}.\nIf you didn't forget your password, please ignore this email`;
   try {
     await sendEmail({

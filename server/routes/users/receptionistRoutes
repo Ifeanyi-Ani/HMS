@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { protect, restrictTo } = require('../../middlewares/authMiddlewares');
 const {
   getReceptionists,
   editReceptionist,
@@ -10,7 +10,10 @@ const { createReceptionist } = require('../../controllers/authControllers');
 
 const router = express.Router();
 
-router.route('/').get(getReceptionists).post(createReceptionist);
+router
+  .route('/')
+  .get(getReceptionists)
+  .post(protect, restrictTo('superadmin', 'admin'), createReceptionist);
 router
   .route('/:id')
   .get(getReceptionist)

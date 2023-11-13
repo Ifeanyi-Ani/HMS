@@ -3,6 +3,7 @@ const patientRoutes = require('./patientRoutes');
 const nurseRoutes = require('./nurseRoutes');
 const doctorRoutes = require('./doctorRoutes');
 const userRoutes = require('./userRoutes');
+const adminRoutes = require('./adminRoutes');
 const authRoutes = require('./authRoutes');
 
 module.exports = {
@@ -12,4 +13,5 @@ module.exports = {
   doctorRoutes,
   userRoutes,
   authRoutes,
+  adminRoutes,
 };

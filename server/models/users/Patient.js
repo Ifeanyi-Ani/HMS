@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const Hospital = require('../Hospital');
-const Receptionist = require('./Receptionist');
 const User = require('./User');
 
 const patientSchema = User.discriminator(
@@ -10,12 +8,12 @@ const patientSchema = User.discriminator(
   new mongoose.Schema({
     hospitalID: {
       type: mongoose.Schema.ObjectId,
-      ref: Hospital,
+      ref: 'Hospital',
       required: [true, 'must belong to a hospital'],
     },
     receptionistID: {
       type: mongoose.Schema.ObjectId,
-      ref: Receptionist,
+      ref: 'Receptionist',
       required: [true, 'must be register by a staff'],
     },
     emergencycontacts: {

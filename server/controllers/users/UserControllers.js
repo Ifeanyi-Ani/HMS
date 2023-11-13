@@ -4,7 +4,13 @@ const createError = require('http-errors');
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    let users;
+    console.log(req.user);
+    if (req.user.role === 'admin') {
+      users = await User.find({ hospitalID: req.user.hospitalID });
+    } else {
+      users = await User.find();
+    }
     res.status(200).json(users);
   } catch (err) {
     next(err);
