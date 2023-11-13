@@ -6,16 +6,23 @@ import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai';
 import { Outlet } from 'react-router-dom';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { loggedIn, loggedUser } from '../redux/features/authSlice';
+import { loggedIn, loggedUser, logout } from '../redux/features/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const DashboardLayout = () => {
   const { currentUser } = useSelector(loggedUser);
+  const dispatch = useDispatch();
+  const name = `${currentUser.user?.firstname} ${currentUser.user?.lastname}`;
   const [isopen, setisOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogOut = e => {
+    e.preventDefault();
+    dispatch(logout());
+    navigate('/');
+  };
   useEffect(() => {
     if (!currentUser) {
-      console.log(currentUser);
       navigate('/login');
     }
   }, [currentUser]);
@@ -53,7 +60,7 @@ const DashboardLayout = () => {
                     onClick={() => setisOpen(open => !open)}
                     className="px-3 py-2 w-full flex items-center justify-between font-semibold text-lg rounded-lg tracking-wider shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                   >
-                    Ifeanyi Ani
+                    {name}
                     {isopen ? <AiOutlineCaretUp /> : <AiOutlineCaretDown />}
                   </button>
                   {isopen && (
@@ -71,6 +78,7 @@ const DashboardLayout = () => {
                           <button
                             type="submit"
                             className="text-gray-700 w-full block text-left text-sm px-4 py-2"
+                            onClick={handleLogOut}
                           >
                             Signout
                           </button>

@@ -37,12 +37,12 @@ function Login() {
     }
   };
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && currentUser != null) {
       toast.success('user login successfully');
 
       navigate(`/${currentUser.user?.role}`);
     }
-    if (currentUser) {
+    if (currentUser && currentUser != null) {
       navigate(`/${currentUser.user?.role}`);
     }
   }, [isSuccess, navigate]);
