@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-
 const User = require('./User');
 
-const doctorSchema = User.discriminator(
-  'Doctor',
+const adminSchema = User.discriminator(
+  'Admin',
   new mongoose.Schema({
     hospitalID: {
       type: mongoose.Schema.ObjectId,
@@ -13,4 +12,4 @@ const doctorSchema = User.discriminator(
   })
 );
 
-module.exports = mongoose.model('Doctor');
+module.exports = mongoose.model('Admin');

@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const hospitalRoutes = require('./routes/hospitalRoutes');
 const {
   receptionistRoutes,
+  adminRoutes,
   patientRoutes,
   nurseRoutes,
   doctorRoutes,
@@ -16,7 +17,6 @@ const { login } = require('./controllers/authControllers');
 const wardRoutes = require('./routes/Ward');
 const bedRoutes = require('./routes/Bed');
 const uploadRoutes = require('./routes/upload');
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -40,6 +40,7 @@ app.post('/login', login);
 app.use('/wards', wardRoutes);
 app.use('/beds', bedRoutes);
 app.use('/uploads', uploadRoutes);
+app.use('/admins', adminRoutes);
 
 app.all('*', (req, res, next) => {
   next(createError(404, `can't find ${req.originalUrl} on this server`));

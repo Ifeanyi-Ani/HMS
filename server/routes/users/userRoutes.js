@@ -17,14 +17,17 @@ const {
 
 const router = express.Router();
 
-router.route('/').get(protect, restrictTo('admin'), getUsers).post(createUser);
+router
+  .route('/')
+  .get(protect, restrictTo('admin', 'superadmin'), getUsers)
+  .post(createUser);
 
 router.patch('/updateMyPassword', protect, updatePassword);
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
 router
   .route('/:id')
-  .get(protect, restrictTo('admin'), getUser)
-  .patch(protect, restrictTo('admin'), editUser)
-  .delete(protect, restrictTo('admin'), deleteUser);
+  .get(protect, restrictTo('admin', 'superadmin'), getUser)
+  .patch(protect, restrictTo('admin', 'superadmin'), editUser)
+  .delete(protect, restrictTo('admin', 'superadmin'), deleteUser);
 module.exports = router;
