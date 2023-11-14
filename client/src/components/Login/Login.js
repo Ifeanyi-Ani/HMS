@@ -14,7 +14,6 @@ function Login() {
   const { isSuccess, isLoading, currentUser, message } =
     useSelector(loggedUser);
 
-  const override = {};
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -37,15 +36,20 @@ function Login() {
     }
   };
   useEffect(() => {
-    if (isSuccess && currentUser != null) {
-      toast.success('user login successfully');
+    console.log('Current User:', currentUser);
 
-      navigate(`/${currentUser.user?.role}`);
+    if (isSuccess && currentUser && currentUser.user && currentUser.user.role) {
+      toast.success('user login successfully');
+      setShow(false);
+      navigate(`/${currentUser.user.role}`);
     }
-    if (currentUser && currentUser != null) {
+
+    if (currentUser && currentUser?.user) {
       navigate(`/${currentUser.user?.role}`);
+      setShow(false);
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, currentUser, navigate]);
+
   return (
     <>
       <div className="w-[90%] mx-auto mt-10">
@@ -98,11 +102,7 @@ function Login() {
       </div>
       {isLoading && (
         <div className="absolute top-0 right-0 rounded-2xl left-0 bottom-0 bg-[rgba(0,0,0,0.2)] flex justify-center items-center">
-          <MoonLoader
-            color="rgb(23,37,84)"
-            loading={isLoading}
-            cssOverride={override}
-          />
+          <MoonLoader color="rgb(23,37,84)" loading={isLoading} />
         </div>
       )}
     </>

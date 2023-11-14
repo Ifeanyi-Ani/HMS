@@ -44,6 +44,8 @@ const userSchema = new mongoose.Schema(
     // passwordChangeAt: Date,
     image: {
       type: String,
+      default:
+        'https://firebasestorage.googleapis.com/v0/b/hospital-management-syst-be818.appspot.com/o/users%2Fprofile.png%20%2015494.520407988728?alt=media&token=660c85da-31de-43a2-a745-6746a7910397  ',
     },
     role: {
       type: String,

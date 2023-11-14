@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const DashboardLayout = () => {
   const { currentUser } = useSelector(loggedUser);
   const dispatch = useDispatch();
-  const name = `${currentUser.user?.firstname} ${currentUser.user?.lastname}`;
+  const [name, setName] = useState(null);
   const [isopen, setisOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -22,7 +22,9 @@ const DashboardLayout = () => {
     navigate('/');
   };
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser) {
+      setName(`${currentUser.user?.firstname} ${currentUser.user?.lastname}`);
+    } else {
       navigate('/login');
     }
   }, [currentUser]);
@@ -50,7 +52,7 @@ const DashboardLayout = () => {
                 <IoMdNotificationsOutline className="text-3xl" />
                 <div className="relative w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
                   <img
-                    src={img1}
+                    src={currentUser.user?.image}
                     alt="profile"
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
