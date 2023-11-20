@@ -1,4 +1,5 @@
 import { MdPeople } from 'react-icons/md';
+
 import { FaUserDoctor } from "react-icons/fa6";
 import { RiDashboard3Line } from "react-icons/ri";
 import { FaBedPulse } from "react-icons/fa6";
@@ -17,10 +18,14 @@ import { FaPrescriptionBottle } from "react-icons/fa6";
 import { BsPhoneFlip } from "react-icons/bs";
 import img1 from '../../src/images/Union.png';
 import img2 from '../../src/images/pp.jpg';
+
+import { FaUserPlus } from 'react-icons/fa';
+
 import { Link } from 'react-router-dom';
 const Receptionist = () => {
   return (
     <>
+
       <aside className="fixed w-[350px] h-[650px] cursor-pointer overflow-y-scroll">
         <div className='flex flex-col'>
           <div className="m-auto w-[80%] p-10 border-b-2 border-solid border-[#dbdbdb]">
@@ -168,6 +173,7 @@ const Receptionist = () => {
         <div className='bg-white p-[30px] rounded-[20px]  flex justify-between cursor-pointer shadow-md ring-1 ring-inset ring-gray-300 w-[95%] m-auto'>
           <p className='p-4 text-lg'>Copyright © 2023 <span className='text-[#31366e] font-semibold'>Orbis Medical</span>. All rights reserved.</p>
         </div>
+
 
       </main>
     </>

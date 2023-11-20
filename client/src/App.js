@@ -1,15 +1,28 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { DataProvider } from './context/';
 import HomePage from './components/Homepage/HomePage';
-import { dataContext } from './context/';
 
-import Patient from './components/Patient';
+import Patient from './Page/Patient';
+import Admin from './Page/Admin';
+import Receptionist from './Page/Receptionist';
 import NotFoundPage from './components/NotFoundPage';
 import RootLayout from './layouts/RootLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 
+import { useDispatch, useSelector } from 'react-redux';
+import Login from './components/Login/Login';
+import { loggedIn } from './redux/features/authSlice';
+
 function App() {
+  const dispatch = useDispatch();
+  const [loading, setloading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      dispatch(loggedIn());
+      setloading(false);
+    }
+  }, [loading, dispatch]);
   const router = createBrowserRouter([
     {
       element: <RootLayout />,
@@ -17,6 +30,10 @@ function App() {
         {
           path: '/',
           element: <HomePage />,
+        },
+        {
+          path: '/login',
+          element: <Login />,
         },
       ],
     },
@@ -29,7 +46,7 @@ function App() {
         },
         {
           path: 'receptionist',
-          element: <Patient />,
+          element: <Receptionist />,
         },
         {
           path: 'accountant',
@@ -46,6 +63,10 @@ function App() {
         {
           path: 'pharmacy',
           element: <Patient />,
+        },
+        {
+          path: 'admin',
+          element: <Admin />,
         },
       ],
     },
