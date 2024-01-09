@@ -1,7 +1,7 @@
-import React from 'react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import Content from '../components/Content';
+import React from "react";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import Content from "../components/Content";
 
 const DashHolder = () => {
   return (
@@ -10,7 +10,7 @@ const DashHolder = () => {
         <Sidebar />
       </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden h-screen">
         <Header />
         {/* <Content /> */}
       </div>
