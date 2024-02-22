@@ -1,18 +1,18 @@
-const dotenv = require('dotenv');
+require("dotenv").config();
 
 module.exports = {
   firebaseConfig: {
-    apiKey: 'AIzaSyAMaC1hq70H0zJlWJR-Qnoy26OpNI82aiw',
+    apiKey: process.env.API_KEY,
 
-    authDomain: 'hospital-management-syst-be818.firebaseapp.com',
+    authDomain: process.env.AUTH_DOMAIN,
 
-    projectId: 'hospital-management-syst-be818',
+    projectId: process.env.PROJECT_ID,
 
-    storageBucket: 'hospital-management-syst-be818.appspot.com',
-    messagingSenderId: '958769841574',
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
 
-    appId: '1:958769841574:web:d48baeebc397caabe57b67',
+    appId: process.env.APPID,
 
-    measurementId: 'G-59LLEGTK5L',
+    measurementId: process.env.MEASUREMENT_ID,
   },
 };

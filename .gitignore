@@ -6,6 +6,7 @@
 .pnp.js
 .vscode
 .env
+*.env
 coverage
 
 build
@@ -21,4 +22,3 @@ yarn-debug.log*
 yarn-error.log*
 
 node_modules
-server/.env
